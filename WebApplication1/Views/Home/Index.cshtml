@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Books>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="">
+    <a asp-controller="Home" asp-action="Create" class="btn btn-primary mb-5">Add Book</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Summary</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var obj in Model)
+            {
+                <tr>
+                    <td>@obj.title</td>
+                    <td>@obj.Summary</td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-warning">Update</a>
+                        <a asp-controller="Home" asp-action="Destroy" asp-route-id="@obj.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
