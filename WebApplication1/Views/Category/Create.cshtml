@@ -1,0 +1,11 @@
+﻿@model Categories
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input type="text" asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a asp-controller="Category" asp-action="Index" type="submit" class="btn btn-secondary">Cancel</a>
+</form>

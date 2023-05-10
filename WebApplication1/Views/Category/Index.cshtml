@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Categories>
+@{
+    ViewData["Title"] = "Category Page";
+}
+
+<div class="">
+    <a asp-controller="Category" asp-action="Create" class="btn btn-primary mb-5">Add Category</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col" class="text-center col-3">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>@obj.Name</td>
+                    <td class="text-center">
+                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-warning">Update</a>
+                        <a asp-controller="Category" asp-action="Remove" asp-route-id="@obj.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

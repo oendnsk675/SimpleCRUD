@@ -7,9 +7,11 @@ namespace WebApplication1.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public string ?title { get; set; }
+        [Required(ErrorMessage = "Title is required")]
+        public string? Title { get; set; }
+        [MaxLength(20)]
+        public string? Summary { get; set; }
 
-        public string ?Summary { get; set; }
+        public int? Category_id { get; set; }
     }
 }

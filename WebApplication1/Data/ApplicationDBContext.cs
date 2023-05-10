@@ -9,5 +9,7 @@ namespace WebApplication1.Data
         { }
 
         public DbSet<Books> Books { get; set; }
+
+        public DbSet<Categories> Categories { get; set; }
     }
 }

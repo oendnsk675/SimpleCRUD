@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebApplication1.Data;
 using WebApplication1.Models;
@@ -7,21 +8,24 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDBContext _db;
+        private readonly BookDataAccsessLayer book;
 
-        public HomeController(ApplicationDBContext db)
+        public HomeController()
         {
-            _db = db;
+            book = new BookDataAccsessLayer();
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Books> bookList = _db.Books;
+            
+            IEnumerable<BookViewModel> bookList = book.GetAll();
             return View(bookList);
         }
 
         public IActionResult Create()
         {
+            CategoryDataAccessLayer category = new CategoryDataAccessLayer();
+            ViewBag.Category = category.GetAll();
             return View();
         }
 
@@ -29,9 +33,14 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Books obj)
         {
-            _db.Books.Add(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                book.Create(obj);
+                return RedirectToAction("Index");
+            }
+            CategoryDataAccessLayer category = new CategoryDataAccessLayer();
+            ViewBag.Category = category.GetAll();
+            return View();
         }
 
         public IActionResult Edit(int? id)
@@ -40,11 +49,14 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
-            var books = _db.Books.Find(id);
-            if(books == null)
+            var books = book.GetBook(id);
+            if (books == null)
             {
                 return NotFound();
             }
+            CategoryDataAccessLayer category = new CategoryDataAccessLayer();
+            // var categories = category.GetAll()
+            ViewBag.Category = category.GetAll();
             return View(books);
         }
 
@@ -52,21 +64,23 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Books obj)
         {
-            _db.Books.Update(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                book.Update(obj);
+                return RedirectToAction("Index");
+            }else
+            {
+                CategoryDataAccessLayer category = new CategoryDataAccessLayer();
+                // var categories = category.GetAll()
+                ViewBag.Category = category.GetAll();
+                return View(obj);
+            }
         }
 
         [HttpGet]
-        public IActionResult Destroy(int id)
+        public IActionResult Remove(int id)
         {
-            var books = _db.Books.Find(id);
-            if (books == null) 
-            {
-                return NotFound();
-            }
-            _db.Books.Remove(books);
-            _db.SaveChanges();
+            book.Remove(id);
             return RedirectToAction("Index");
         }
 

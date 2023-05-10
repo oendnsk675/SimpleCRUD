@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Books>
+﻿@model IEnumerable<BookViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -10,6 +10,7 @@
             <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Summary</th>
+                <th scope="col">Category</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -17,11 +18,12 @@
             @foreach(var obj in Model)
             {
                 <tr>
-                    <td>@obj.title</td>
+                    <td>@obj.Title</td>
                     <td>@obj.Summary</td>
+                    <td>@obj.CategoryName</td>
                     <td>
                         <a asp-controller="Home" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-warning">Update</a>
-                        <a asp-controller="Home" asp-action="Destroy" asp-route-id="@obj.Id" class="btn btn-danger">Delete</a>
+                        <a asp-controller="Home" asp-action="Remove" asp-route-id="@obj.Id" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
             }

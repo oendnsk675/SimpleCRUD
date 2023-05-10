@@ -2,12 +2,25 @@
 
 <form method="post">
     <div class="mb-3">
-        <label asp-for="title" class="form-label"></label>
-        <input type="text" asp-for="title" class="form-control">
+        <label asp-for="Title" class="form-label"></label>
+        <input type="text" asp-for="Title" class="form-control">
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Summary" class="form-label"></label>
-        <input type="text" asp-for="Summary" class="form-control">
+        <textarea type="text" asp-for="Summary" class="form-control"></textarea>
+        <span asp-validation-for="Summary" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Category_id" class="form-label"></label>
+        <select asp-for="Category_id" class="form-select">
+            <option value="" disabled selected>--Select Category--</option>
+            @foreach (var category in ViewBag.Category)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+        <span asp-validation-for="Category_id" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     <a asp-controller="Home" asp-action="Index" type="submit" class="btn btn-secondary">Back to home</a>
